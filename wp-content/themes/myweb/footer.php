@@ -18,7 +18,11 @@
 						</span>
 					</div>
 
-					<span class="copy"><i class="fa fa-copyright" aria-hidden="true"></i> <?php bloginfo( 'name' ); ?>. Todos os direitos reservados.</span>
+					<span class="copy">
+						<i class="fa fa-copyright" aria-hidden="true"></i> <?php bloginfo( 'name' ); ?>. Todos os direitos reservados.
+						<a href="http://www.itismyweb.com.br" target="_blank" class="myweb" title="My Web Consultoria e Marketing Digital"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/myweb-branco.png" alt="My Web Consultoria e Marketing Digital"></a>
+						</span>
+
 				</div>
 			</div>
 		</div>

@@ -1,37 +1,43 @@
 <?php get_header(); ?>
 
-<session class="post-det list">
+<section class="section" id="blog">
 	<div class="container">
+		
+		<header class="header">
+			<h2>BLOG</h2>
+			<p class="sub-titulo">Todos os Artigos & Notícias</p>
+			<span class="ico"><i class="fa fa-newspaper-o" aria-hidden="true"></i></span>
+		</header>
 
 		<div class="row">
-			<div class="col-9" style="float: right;">
-
-			<header class="categoria-header">
-				<h2><?php the_archive_title(); ?></h2>
-			</header><!-- .page-header -->
 				
-				<?php if ( have_posts() ) :
+			<?php if ( have_posts() ) :
 
-					while ( have_posts() ) : the_post();
-						get_template_part( 'content','');
-					endwhile;
+				while ( have_posts() ) : the_post();
+					$categorias = get_the_category();
 
-					// Previous/next page navigation.
-					the_posts_pagination( array(
-						'prev_text'          => __( 'Previous page', 'twentyfifteen' ),
-						'next_text'          => __( 'Next page', 'twentyfifteen' ),
-						'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyfifteen' ) . ' </span>',
-					) );
+					if(count($categorias) == 1){
+						if($categorias[0]->slug != 'restrito'){
+							get_template_part( 'content','list');
+						}
+					}else{
+						get_template_part( 'content','list');
+					}
+					
+				endwhile;
 
-				else :
-					get_template_part( 'content', 'none' );
+				// Previous/next page navigation.
+				the_posts_pagination( array(
+					'prev_text'          => __( 'Previous page', 'twentyfifteen' ),
+					'next_text'          => __( 'Next page', 'twentyfifteen' ),
+					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyfifteen' ) . ' </span>',
+				) );
 
-				endif; ?>
+			else :
+				get_template_part( 'content', 'none' );
 
-			</div>
-			<div class="col-3">
-				<?php include 'sidebar.php'; ?>
-			</div>
+			endif; ?>
+
 		</div>
 
 	</div>

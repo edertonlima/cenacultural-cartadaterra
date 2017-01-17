@@ -21,12 +21,47 @@
 	}
 
 
+	// Galeria de fotos e videos
+	add_action( 'init', 'create_post_type_cobertura' );
+	function create_post_type_cobertura() {
+
+		$labels = array(
+		    'name' => _x('', 'post type general name'),
+		    'singular_name' => _x('Cobertura', 'post type singular name'),
+		    'add_new' => _x('Adicionar Nova', 'Cobertura'),
+		    'add_new_item' => __('Adicionar nova cobertura'),
+		    'edit_item' => __('Editar Cobertura'),
+		    'new_item' => __('Nova Cobertura'),
+		    'all_items' => __('Todas as coberturas'),
+		    'view_item' => __('Visualizar cobertura'),
+		    'search_items' => __('Procurar cobertura'),
+		    'not_found' =>  __(''),
+		    'not_found_in_trash' => __(''),
+		    'parent_item_colon' => '',
+		    'menu_name' => 'Cobertura'
+		);
+		$args = array(
+		    'labels' => $labels,
+		    'public' => true,
+		    'publicly_queryable' => true,
+		    'show_ui' => true,
+		    'show_in_menu' => true,
+		    'rewrite' => true,
+		    'capability_type' => 'post',
+		    'has_archive' => true,
+		    'hierarchical' => false,
+		    'menu_position' => null,
+		    'menu_icon' => 'dashicons-camera',
+		    'supports' => array('title','excerpt','thumbnail')
+		  );
+
+	    register_post_type( 'cobertura', $args );
+	}
 
 
 
-	// slide
-	/*
-	function change_post_label() {
+	// muda nome de post para slides
+	/*function change_post_label() {
 	    global $menu;
 	    global $submenu;
 	    $menu[5][0] = 'Slides';
@@ -54,9 +89,8 @@
 	}
 	 
 	add_action( 'admin_menu', 'change_post_label' );
-	add_action( 'init', 'change_post_object' );
-	*/
-	// slide
+	add_action( 'init', 'change_post_object' );*/
+	// slide 
 
 	// remove itens padrões
 	/*
@@ -76,11 +110,11 @@
 	*/
 
 	// Remove tags
-	/*function myprefix_unregister_tags() {
+	function myprefix_unregister_tags() {
 	    unregister_taxonomy_for_object_type('post_tag', 'post');
 	}
 	add_action('init', 'myprefix_unregister_tags');
-	// end Remove tags*/
+	// end Remove tags
 
 	// SERVIÇOS
 	/*
@@ -251,9 +285,12 @@ function my_custom_fonts() {
 	.acf-postbox h2 a, 
 	#the-list #post-94, 
 	#the-list #post-65, 
-	.taxonomy-category .form-field.term-parent-wrap 
+	.taxonomy-category .form-field.term-parent-wrap, 
+	#menu-posts ul li:last-child, 
+	#menu-pages, 
+	#category-adder 
 	{
-		/*display: none!important;*/
+		display: none!important;
 	}
   </style>';
 }
@@ -590,6 +627,15 @@ if( function_exists('acf_add_options_page') ) {
 		'menu_slug' 	=> 'oprojeto',
 		'capability'	=> 'edit_posts',
 		'icon_url' => 'dashicons-format-quote',
+		'redirect'		=> false
+	));
+
+	acf_add_options_page(array(
+		'page_title' 	=> 'Apoiadores',
+		'menu_title'	=> 'Apoiadores',
+		'menu_slug' 	=> 'apoio',
+		'capability'	=> 'edit_posts',
+		'icon_url' => 'dashicons-thumbs-up',
 		'redirect'		=> false
 	));
 

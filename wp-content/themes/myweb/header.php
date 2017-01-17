@@ -101,25 +101,46 @@
 
 	$(document).ready(function(){
 
-		var heightPage = $(window).height();
-		function menuFixed(position,heightPage){		
-			heightPage = heightPage;
-			if(position > heightPage){
-				$('.container-menu').addClass('menu-fixed');
-				$('.header-menu').removeClass('off');
-			}else{
-				$('.container-menu').removeClass('menu-fixed');
-				$('.header-menu').addClass('off');
+		<?php if(is_home()){ ?>
+			var heightPage = $(window).height();
+			function menuFixed(position,heightPage){		
+				heightPage = heightPage;
+				if(position > heightPage){
+					$('.container-menu').addClass('menu-fixed');
+					$('.header-menu').removeClass('off');
+				}else{
+					$('.container-menu').removeClass('menu-fixed');
+					$('.header-menu').addClass('off');
+				}
 			}
-		}
 
-		position = jQuery(window).scrollTop();
-    	menuFixed(position,heightPage);
-	    jQuery(window).scroll(function(){
-	    	position = jQuery(window).scrollTop();
+			position = jQuery(window).scrollTop();
 	    	menuFixed(position,heightPage);
-	    });
+		    jQuery(window).scroll(function(){
+		    	position = jQuery(window).scrollTop();
+		    	menuFixed(position,heightPage);
+		    });
+		<?php }else{ ?>
+	   		$('.menu li').each(function(){
+	   			var url = '<?php echo get_home_url(); ?>/'+($('a', this).attr('href'));
+	   			$('a', this).attr('href',url);
+	   		});
 
+	   		$('.social li.fale-conosco').each(function(){
+	   			var url = '<?php echo get_home_url(); ?>/'+($('a', this).attr('href'));
+	   			$('a', this).attr('href',url);
+	   		});
+		<?php } ?>
+
+		/* CATEGORIAS */
+		$('.categorias a').click(function(){
+			var classItem = $(this).attr('rel');
+			classItem = '.cobertura .item.'+classItem;
+			$('.cobertura .item').hide();
+			$(classItem).show();
+			$('.categorias a').removeClass('ativo');
+			$(this).addClass('ativo');
+		});
 
 		/* OPEN/CLOSE MENU */
 		$('.menu-mobile').click(function(){
@@ -133,6 +154,23 @@
 			}
 		});
 
+		// MENU PROJETO
+		<?php if( have_rows('topicos','option') ): ?>
+			$('.menu-item-34').append('<ul class="submenu"></ul>');
+			<?php while ( have_rows('topicos','option') ) : the_row(); ?>
+				$('.menu-item-34 .submenu').append('<li><a href="#oprojeto" title="<?php the_sub_field('nome','option'); ?>" rel="<?php the_sub_field('ancora','option'); ?>"><?php the_sub_field('nome','option'); ?></a></li>');
+			<?php endwhile;
+			while ( have_rows('topicos_2','option') ) : the_row(); ?>
+				$('.menu-item-34 .submenu').append('<li><a href="#oprojeto" title="<?php the_sub_field('nome','option'); ?>" rel="<?php the_sub_field('ancora','option'); ?>"><?php the_sub_field('nome','option'); ?></a></li>');
+			<?php endwhile;
+		endif; ?>
+
+		$('.menu-item-34 .submenu a').click(function(){
+			var itemMenu = '#'+($(this).attr('rel'))+' .cont-item';
+			$('.cont-item').hide();
+			$(itemMenu).show();
+		});
+
 	});	
 
 </script>
@@ -140,17 +178,20 @@
 </head>
 <body <?php body_class(); ?>>
 
+	<?php if(is_home()){ ?>
+		<header class="top-header">
+			<div class="container">				
+				<nav class="nav">
+					<?php wp_nav_menu( array(
+						'menu'           => 'Carta da Terra',
+					    'theme_location' => 'primary',
+					    'items_wrap'     => '<ul class="menu">%3$s</ul>'
+					) ); ?>
 
-	<header class="top-header">
-		<div class="container">				
-			<nav class="nav">
-				<?php wp_nav_menu( array(
-					'menu'           => 'Carta da Terra',
-				    'theme_location' => 'primary',
-				    'items_wrap'     => '<ul class="menu">%3$s</ul>'
-				) ); ?>
-
-				<?php include 'social-cartadaterra.php'; ?>
-			</nav>
-		</div>
-	</header>
+					<?php include 'social.php'; ?>
+				</nav>
+			</div>
+		</header>
+	<?php }else{
+		include 'menu.php';
+	} ?>
