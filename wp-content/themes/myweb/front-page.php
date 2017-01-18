@@ -29,7 +29,7 @@
 			<p class="resumo"><?php the_field('resumo-projeto','option'); ?></p>
 		</div>
 
-		<div class="row">
+		<div class="row" style="background-image: url('<?php the_field('bg-topicos','option'); ?>');">
 
 			<div class="col-6">
 				<div class="topico esq">

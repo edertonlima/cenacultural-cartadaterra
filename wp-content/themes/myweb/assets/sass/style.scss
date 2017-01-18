@@ -684,8 +684,7 @@ h3, h3 a {
 		}
 
 		p.resumo {
-			max-width: 60%;
-			display: block;
+			display: block; 
 			margin: 10px auto;
 		}
 	}
@@ -785,9 +784,19 @@ h3, h3 a {
 		max-width: 80%;
 	}
 
+	.row {
+		background-repeat: no-repeat;
+		background-size: auto 450px;
+		background-position: top center;
+
+		[class*="col-"] {
+			background-color: rgba(#ffffff, .75);
+		}
+	}
+
 	.topico {
 		width: 100%;
-		margin-top: 100px;
+		margin-top: 60px;
 
 		.content {
 			width: 100%;
@@ -797,6 +806,10 @@ h3, h3 a {
 			margin-bottom: 50px;
 			display: block;
 			position: relative;
+
+			.tit, .desc, .cont-item, a {
+				text-shadow: 1px 1px 2px #fff;
+			}
 
 			.tit, .desc, .cont-item {
 				display: block;
