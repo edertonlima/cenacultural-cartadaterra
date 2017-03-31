@@ -662,3 +662,98 @@ if( function_exists('acf_add_options_page') ) {
 }
 
 ?>
+
+
+<?php
+
+/**
+ * Adicionamos uma acção no inicio do carregamento do WordPress
+ * através da função add_action( 'init' )
+ */
+add_action( 'init', 'create_post_type_film' );
+
+/**
+ * Esta é a função que é chamada pelo add_action()
+ */
+function create_post_type_film() {
+
+    /**
+     * Labels customizados para o tipo de post
+     * 
+     */
+    $labels = array(
+	    'name' => _x('Films', 'post type general name'),
+	    'singular_name' => _x('Film', 'post type singular name'),
+	    'add_new' => _x('Add New', 'film'),
+	    'add_new_item' => __('Add New Film'),
+	    'edit_item' => __('Edit Film'),
+	    'new_item' => __('New Film'),
+	    'all_items' => __('All Films'),
+	    'view_item' => __('View Film'),
+	    'search_items' => __('Search Films'),
+	    'not_found' =>  __('No Films found'),
+	    'not_found_in_trash' => __('No Films found in Trash'),
+	    'parent_item_colon' => '',
+	    'menu_name' => 'Films'
+    );
+    
+    /**
+     * Registamos o tipo de post film através desta função
+     * passando-lhe os labels e parâmetros de controlo.
+     */
+    register_post_type( 'film', array(
+	    'labels' => $labels,
+	    'public' => true,
+	    'publicly_queryable' => true,
+	    'show_ui' => true,
+	    'show_in_menu' => true,
+	    'has_archive' => 'films',
+	    'rewrite' => array(
+		 'slug' => 'films',
+		 'with_front' => false,
+	    ),
+	    'capability_type' => 'post',
+	    'has_archive' => true,
+	    'hierarchical' => false,
+	    'menu_position' => null,
+	    'supports' => array('title','editor','author','thumbnail','excerpt','comments')
+	    )
+    );
+    
+    /**
+     * Registamos a categoria de filmes para o tipo de post film
+     */
+    register_taxonomy( 'film_category', array( 'film' ), array(
+        'hierarchical' => true,
+        'label' => __( 'Film Category' ),
+        'labels' => array( // Labels customizadas
+	    'name' => _x( 'Categories', 'taxonomy general name' ),
+	    'singular_name' => _x( 'Category', 'taxonomy singular name' ),
+	    'search_items' =>  __( 'Search Categories' ),
+	    'all_items' => __( 'All Categories' ),
+	    'parent_item' => __( 'Parent Category' ),
+	    'parent_item_colon' => __( 'Parent Category:' ),
+	    'edit_item' => __( 'Edit Category' ),
+	    'update_item' => __( 'Update Category' ),
+	    'add_new_item' => __( 'Add New Category' ),
+	    'new_item_name' => __( 'New Category Name' ),
+	    'menu_name' => __( 'Category' ),
+	),
+        'show_ui' => true,
+        'show_in_tag_cloud' => true,
+        'query_var' => true,
+        'rewrite' => array(
+            'slug' => 'films',
+            'with_front' => false,
+        ),
+        )
+    );
+    
+    /** 
+     * Esta função associa tipos de categorias com tipos de posts.
+     * Aqui associamos as tags ao tipo de post film.
+     */
+    register_taxonomy_for_object_type( 'tags', 'film' );
+    
+}
+?>
